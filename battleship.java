@@ -39,7 +39,7 @@ public class battleship{
         for (int i = 0; i < boatLength - 1; i++){
         index += indexDistance;
         if (index < 0){index += 12;}
-        if (map.charAt(index) == '\n') {index -= 2;}
+        if (map.charAt(index) == '\n') {//check start column or direction}
         map = map.substring(0, index) + 'x' + map.substring(index + 1);
         }
 

@@ -1,5 +1,5 @@
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class battleship{
     public static int rows = 5;
@@ -10,43 +10,51 @@ public class battleship{
     public static Boolean win = false;
 
     public static String makeMap(){
-        Random rand = new Random();
-        int boatStartColumn = rand.nextInt(4);
-        int boatStartRow = rand.nextInt(4);
-        int direction = rand.nextInt(3);
-
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < columns; j++){
-                map += ".";
-            }
-            map += ("\n");
-        }
-
-        if (direction == 0 && boatStartRow == 0){direction = 2;}
-        else if (direction == 1 && boatStartColumn == 4) { direction = 3;}
-        else if (direction == 2 && boatStartRow == 4){direction = 0;}
-        else if (direction == 3 && boatStartColumn == 0){direction = 1;}
-
-        int index = boatStartRow * 5 + boatStartColumn;
-        map = map.substring(0, index) + 'x' + map.substring(index + 1);
-
-        int indexDistance = 0;
-        if (direction == 0) {indexDistance = -6;}
-        else if (direction == 1) {indexDistance = 1;}
-        else if (direction == 2) {indexDistance = 6;}
-        else if (direction == 3) {indexDistance = -1;}
         
-        for (int i = 0; i < boatLength - 1; i++){
-        index += indexDistance;
-        if (index < 0){index += 12;}
-        if (map.charAt(index) == '\n') {//check start column or direction}
-        map = map.substring(0, index) + 'x' + map.substring(index + 1);
+    Random rand = new Random();
+
+    int direction = rand.nextInt(2);
+    int boatStartRow;
+    int boatStartColumn;
+
+    if (direction == 0) {
+        // Horizontal boat
+        boatStartRow = rand.nextInt(rows);
+        boatStartColumn = rand.nextInt(columns - boatLength + 1);
+    } else {
+        // Vertical boat
+        boatStartRow = rand.nextInt(rows - boatLength + 1);
+        boatStartColumn = rand.nextInt(columns);
+    }
+
+    map = "";
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            map += ".";
+        }
+        map += "\n";
+    }
+
+    for (int i = 0; i < boatLength; i++) {
+        int row = boatStartRow;
+        int column = boatStartColumn;
+
+        if (direction == 0) {
+            column += i;
+        } else {
+            row += i;
         }
 
-        System.out.println(boatStartColumn + " " + boatStartRow + " " + direction);
-        return map;
+        int index = row * (columns + 1) + column;
 
+        map = map.substring(0, index) + "x"
+            + map.substring(index + 1);
     }
+
+    return map;
+}
+
     public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);
         

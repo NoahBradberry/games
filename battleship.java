@@ -61,18 +61,25 @@ public class battleship{
         Scanner scanner = new Scanner(System.in);
         System.out.println("BATTLESHIP");
         makeMap();
-        System.out.println(map);
-        System.out.println(remainingIndexes);
-        while (remainingIndexes.size != 0){
+        while (remainingIndexes.size() != 0){
+            System.out.println(map);
+            System.out.println("Shots Remaining: " + shots);
             System.out.print("Where to you want to shoot (0 - 24): ");
             int target = scanner.nextInt();
             scanner.nextLine();
             target += target / 5;
             if (remainingIndexes.contains(target)) {
                 System.out.println("Hit");
+                map = map.substring(0, target) + "X" + map.substring(target + 1);
                 remainingIndexes.remove((Integer) target);
-            } else {System.out.println("Miss");}
+                shots -= 1;
+            } else {
+                System.out.println("Miss");
+                map = map.substring(0, target) + "O" + map.substring(target + 1);
+                shots -= 1;
+            }
         }
+        System.out.println(map);
         System.out.println("You Win!!!!");
         scanner.close();
     }
